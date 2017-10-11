@@ -3,7 +3,6 @@
 username=$1
 password=$2
 docker_ee_url=$3
-
 repo_url=`echo $docker_ee_url | rev | cut -c5- | rev`
 
 sudo usermod -l $username ubuntu
