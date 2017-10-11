@@ -19,6 +19,8 @@ cat $file \
 mv $file.new $file
 service sshd restart
 
+echo -e "$username ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
+
 sudo apt-get -y update
 sudo apt-get -y install dnsmasq
 echo -e "server=8.8.8.8\nserver=8.8.4.4" | sudo tee -a /etc/dnsmasq.conf
