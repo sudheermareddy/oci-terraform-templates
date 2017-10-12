@@ -7,7 +7,7 @@ resource "oci_core_instance" "Elkvm" {
     subnet_id = "${oci_core_subnet.Elksubnet1.id}"
   metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
-       user_data = "${base64encode(file(var.BootStrapFile))}"
+
    }
  create_vnic_details {
     subnet_id = "${oci_core_subnet.Elksubnet1.id}"
@@ -16,6 +16,3 @@ resource "oci_core_instance" "Elkvm" {
     hostname_label = "ELKinstance"
   }
     }
-output "linuxPublicIP" {
-  value = ["${oci_core_instance.Elkvm.public_ip}"]
-}

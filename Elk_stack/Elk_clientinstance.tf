@@ -16,6 +16,3 @@ resource "oci_core_instance" "Clientvm" {
     hostname_label = "clientinstance"
   }
     }
-output "Clientvmpublicip" {
-  value = ["${oci_core_instance.Clientvm.public_ip}"]
-}
