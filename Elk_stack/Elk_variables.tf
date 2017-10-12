@@ -30,3 +30,6 @@ variable "InstanceOSVersion" {
 variable "InstanceShape" {
     default = "VM.Standard1.8"
 }
+variable "BootStrapFile" {
+   default = "./userdata/elkstack_kibana.sh"
+}
