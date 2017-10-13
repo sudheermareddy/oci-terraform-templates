@@ -2,6 +2,6 @@
 
 cd ~ubuntu
 
-curl https://raw.githubusercontent.com/ashwinse/test-base/master/enable-password-auth.sh > enable-password-auth.sh
+curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-docker-ee/docker-ee/userdata/enable-password-auth.sh > enable-password-auth.sh
 
 chmod +x enable-password-auth.sh
