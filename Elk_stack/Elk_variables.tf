@@ -33,3 +33,6 @@ variable "InstanceShape" {
 variable "BootStrapFile" {
    default = "./userdata/elkstack_kibana.sh"
 }
+variable "ssh_private_key" {
+    default = "./userdata/elkprivatekey.pem"
+}

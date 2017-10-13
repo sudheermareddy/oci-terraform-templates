@@ -5,8 +5,6 @@
 DATE=`date +%Y%m%d%T`
 LOG=/tmp/elkstack_deploy.log.$DATE
 HOSTIP=`hostname -i`
-storageAccount=$1
-
 
 # Configure Repos for Java, Elasticsearch, Kibana Packages
 echo "---Configure Repos for Java, Elasticsearch, Kibana Packages---"	>> $LOG
