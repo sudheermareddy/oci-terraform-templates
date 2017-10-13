@@ -65,12 +65,12 @@ wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-s
  systemctl enable logstash >> $LOG
 
 #Configuring Kibana Dashboards
-#echo "---Configuring Kibana Dashboards---" >> $LOG
-#cd ~
-#curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip >> $LOG
-#unzip beats-dashboards-*.zip >> $LOG
-#cd beats-dashboards-* >> $LOG
-#./load.sh >> $LOG
+echo "---Configuring Kibana Dashboards---" >> $LOG
+cd ~
+curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip >> $LOG
+unzip beats-dashboards-*.zip >> $LOG
+cd beats-dashboards-* >> $LOG
+./load.sh >> $LOG
 
 #Load Filebeat Index Template in Elasticsearch
 #echo "---Load Filebeat Index Template in Elasticsearch---" >> $LOG
