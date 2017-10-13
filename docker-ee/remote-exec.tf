@@ -10,7 +10,7 @@ resource "null_resource" "remote-exec" {
       }
       inline = [
         "cd ~docker",
-        "curl https://raw.githubusercontent.com/ashwinse/test-base/master/docker-install-ucp.sh > docker-install-ucp.sh",
+        "curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-docker-ee/docker-ee/userdata/docker-install-ucp.sh > docker-install-ucp.sh",
         "chmod +x docker-install-ucp.sh",
         "./docker-install-ucp.sh ${var.admin_username} ${var.docker_ee_url} ${data.oci_core_vnic.lin-nic-c.private_ip_address} ${data.oci_core_vnic.lin-nic-c.public_ip_address} >> remote-exec.log 2>&1"
       ]
@@ -29,7 +29,7 @@ resource "null_resource" "remote-exec2" {
       }
       inline = [
         "cd ~docker",
-        "curl https://raw.githubusercontent.com/ashwinse/test-base/master/docker-install.sh > docker-install.sh",
+        "curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-docker-ee/docker-ee/userdata/docker-install.sh > docker-install.sh",
         "chmod +x docker-install.sh",
         "./docker-install.sh ${var.admin_username} ${var.docker_ee_url} >> remote-exec.log 2>&1"
 
@@ -71,7 +71,7 @@ resource "null_resource" "remote-exec3" {
       }
       inline = [
         "cd ~docker",
-        "curl https://raw.githubusercontent.com/ashwinse/test-base/master/docker-install.sh > docker-install.sh",
+        "curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-docker-ee/docker-ee/userdata/docker-install.sh > docker-install.sh",
         "chmod +x docker-install.sh",
         "./docker-install.sh ${var.admin_username} ${var.docker_ee_url} >> remote-exec.log 2>&1"
 
