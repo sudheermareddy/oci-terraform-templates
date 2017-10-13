@@ -56,14 +56,6 @@ sudo nginx -t >> $LOG
 sudo systemctl restart nginx >> $LOG
 sudo ufw allow 'Nginx Full' >> $LOG
 
-#Generate SSL Certificates
-echo "---Generate SSL Certificates---" >> $LOG
-sudo mkdir -p /etc/pki/tls/certs >> $LOG
-sudo mkdir /etc/pki/tls/private >> $LOG
-sed -i "/\[ v3_ca \]/a subjectAltName = IP: $HOSTIP" /etc/ssl/openssl.cnf >> $LOG
-cd /etc/pki/tls >> $LOG
-sudo openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt >> $LOG
-
 #Configuring Logstash
 echo "---Configuring Logstash---" >> $LOG
 wget https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/02-beats-input.conf -O /etc/logstash/conf.d/02-beats-input.conf >> $LOG
@@ -75,18 +67,15 @@ sudo systemctl restart logstash >> $LOG
 sudo systemctl enable logstash >> $LOG
 
 #Configuring Kibana Dashboards
-echo "---Configuring Kibana Dashboards---" >> $LOG
-cd ~
-curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip >> $LOG
-unzip beats-dashboards-*.zip >> $LOG
-cd beats-dashboards-* >> $LOG
-./load.sh >> $LOG
+#echo "---Configuring Kibana Dashboards---" >> $LOG
+#cd ~
+#curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip >> $LOG
+#unzip beats-dashboards-*.zip >> $LOG
+#cd beats-dashboards-* >> $LOG
+#./load.sh >> $LOG
 
 #Load Filebeat Index Template in Elasticsearch
-echo "---Load Filebeat Index Template in Elasticsearch---" >> $LOG
-curl -O https://gist.githubusercontent.com/thisismitch/3429023e8438cc25b86c/raw/d8c479e2a1adcea8b1fe86570e42abab0f10f364/filebeat-index-template.json >> $LOG
-curl -XPUT 'http://localhost:9200/_template/filebeat?pretty' -d@filebeat-index-template.json >> $LOG
-cd /etc/pki/tls/certs/
-#az login --service-principal -u $2 --password $3 --tenant $4 >> $LOG
-#az storag#e container create --name kibanaclientkey --output table >> $LOG
-#az storag#e blob upload --container-name kibanaclientkey -f logstash-forwarder.crt -n logstash-forwarder.crt > /dev/null#
+#echo "---Load Filebeat Index Template in Elasticsearch---" >> $LOG
+#curl -O https://gist.githubusercontent.com/thisismitch/3429023e8438cc25b86c/raw/d8c479e2a1adcea8b1fe86570e42abab0f10f364/filebeat-index-template.json >> $LOG
+#curl -XPUT 'http://localhost:9200/_template/filebeat?pretty' -d@filebeat-index-template.json >> $LOG
+#cd /etc/pki/tls/certs/

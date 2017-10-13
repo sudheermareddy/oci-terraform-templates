@@ -42,6 +42,15 @@ resource "oci_core_security_list" "ElksecurityRules" {
                 "max" = 9200
                 }
                }
+               ingress_security_rules {
+        protocol = "6" // tcp
+        source = "0.0.0.0/0"
+        stateless = false
+  tcp_options {
+                "min" = 5601
+                "max" = 5601
+                }
+               }
                 // allow inbound ssh traffic
         ingress_security_rules {
         protocol = "6" // tcp
