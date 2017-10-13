@@ -43,7 +43,7 @@ sudo firewall-cmd --add-port=12387/tcp --permanent --zone=public
 sudo firewall-cmd --reload
 echo "*********************Firewall Installed and configured successfully*********************"
 ##### Install docker ee
-sudo wget -O /home/$username/copy_certs.sh https://raw.githubusercontent.com/mikegcoleman/hybrid-workshop/master/provision_vms/utilities/copy_certs.sh
+sudo wget -O /home/$username/copy_certs.sh https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-docker-ee/docker-ee/userdata/copy_certs.sh
 sudo chmod +x copy_certs.sh
 sudo apt-get -y update 
 sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
