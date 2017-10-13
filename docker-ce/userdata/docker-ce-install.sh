@@ -1,4 +1,7 @@
 #!/bin/sh
+
+username=$1
+
 echo "====================Install prerequisites===================="
 sudo apt-get update 
 sudo apt-get remove -y docker docker-engine docker.io
@@ -14,9 +17,6 @@ sudo firewall-cmd --add-port=4789/tcp --permanent --zone=public
 sudo firewall-cmd --add-port=7946/tcp --permanent --zone=public
 sudo firewall-cmd --add-port=2377/tcp --permanent --zone=public
 
-
-
-
 echo "====================Install Docker CE========================="
 
 sudo apt-get update 
@@ -26,3 +26,6 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt-get update
 sudo apt-get install -y docker-ce
 sudo systemctl enable docker
+sudo usermod -aG docker $username
+
+sudo reboot
