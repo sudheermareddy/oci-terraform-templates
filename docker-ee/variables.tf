@@ -15,15 +15,15 @@ variable "private_key_path" {
 }
 
 variable "region" {
-    default = "us-ashburn-1"
-}
-
-variable "prefix" {
-    
+    default = ""
 }
 
 variable "compartment_ocid" {
     default = ""
+}
+
+variable "prefix" {
+    
 }
 
 variable "sshPublicKey" {
@@ -42,16 +42,12 @@ variable "admin_password" {
     default = "Docker2017"
 }
 
-variable "AD" {
-    default = "1"
-}
-
 variable "instance_count" {
     default = "1"
 }
 
 variable "instanceShape" {
-    default = "VM.Standard1.8"
+    default = "VM.Standard1.2"
 }
 
 variable "instanceLinOS" {
@@ -62,19 +58,11 @@ variable "instanceLinOSVersion" {
     default = "16.04"
 }
 
-variable "instanceWinOS" {
-    default = "Windows"
-}
-
-variable "instanceWinOSVersion" {
-    default = "Server 2012 R2 Standard"
-}
-
 variable "BootStrapFileDir" {
-    default = "./userdata/docker-install-user.sh"
+    default = "./userdata/enable-password-auth-user.sh"
 }
 
 variable "docker_ee_url" {
-    default = "https://storebits.docker.com/ee/m/sub-0e563857-debd-4f5c-bd36-139b5e7d65a6/ubuntu/gpg"
+    default = "https://storebits.docker.com/ee/linux/sub-5f9c3028-8c29-4cae-8562-737b6785802a/ubuntu/gpg"
 }
 
