@@ -9,7 +9,7 @@ resource "oci_core_instance" "Elkvm" {
         ssh_authorized_keys = "${var.ssh_public_key}"
         user_data = "${base64encode(file(var.BootStrapFile))}"
    }
- create_vnic_details {
+  create_vnic_details {
     subnet_id = "${oci_core_subnet.Elksubnet1.id}"
     display_name = "ELknic"
     assign_public_ip = true
@@ -22,25 +22,25 @@ resource "null_resource" "remote-exec" {
       connection {
         agent = false
         timeout = "15m"
-        host = "${data.oci_core_vnic.lin-nic-c.public_ip_address}"
-        user = "elk-kibana"
+        host = "${data.oci_core_vnic.elk-nic.public_ip_address}"
+        user = "ubuntu"
         private_key = "${(file(var.ssh_private_key))}"
       }
       inline = [
-        "cd ~docker",
-        "curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/userdata/elkstack_kibana.sh > elkstack_kibana.sh",
+        "cd ~ubuntu",
+        "curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/userdata/elkstack_kibana.sh > elkstack_kibana.sh ",
         "chmod +x elkstack_kibana.sh",
-        "./docker-install-ucp.sh ${var.admin_username} ${var.docker_ee_url} ${data.oci_core_vnic.lin-nic-c.private_ip_address} ${data.oci_core_vnic.lin-nic-c.public_ip_address}"
+        "./elkstack_kibana.sh"
       ]
     }
 }
 
-data "oci_core_vnic_attachments" "linVnics-a" {
-  compartment_id = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
-  instance_id = "${oci_core_instance.linux-a.id}"
+data "oci_core_vnic_attachments" "elknic" {
+ compartment_id = "${var.compartment_id}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.availdomain.availability_domains[0],"name")}"
+  instance_id = "${oci_core_instance.Elkvm.id}"
 } 
 
-data "oci_core_vnic" "lin-nic-a" {
-  vnic_id = "${lookup(data.oci_core_vnic_attachments.linVnics-a.vnic_attachments[0],"vnic_id")}"
+data "oci_core_vnic" "elk-nic" {
+  vnic_id = "${lookup(data.oci_core_vnic_attachments.elknic.vnic_attachments[0],"vnic_id")}"
 }

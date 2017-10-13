@@ -16,4 +16,4 @@ resource "oci_core_instance" "Clientvm" {
     assign_public_ip = true
     hostname_label = "clientinstance"
   }
-    }
+}
