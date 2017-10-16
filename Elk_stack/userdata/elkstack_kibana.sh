@@ -53,6 +53,15 @@ sudo sed -i "/\[ v3_ca \]/a subjectAltName = IP: $HOSTIP" /etc/ssl/openssl.cnf >
 cd /etc/pki/tls >> $LOG
 sudo openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt >> $LOG
 
+#Configuring Nginx
+echo "---Configuring Nginx---" >> $LOG
+echo "admin:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
+cat /dev/null > /etc/nginx/sites-available/default >> $LOG
+wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/default -O /etc/nginx/sites-available/default >> $LOG
+sudo nginx -t >> $LOG
+sudo systemctl restart nginx >> $LOG
+sudo ufw allow 'Nginx Full' >> $LOG
+
 #Configuring Logstash
 echo "---Configuring Logstash---" >> $LOG
 sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/02-beats-input.conf -O /etc/logstash/conf.d/02-beats-input.conf >> $LOG
