@@ -73,14 +73,6 @@ sudo /opt/logstash/bin/logstash --configtest -f /etc/logstash/conf.d/ >> $LOG
 sudo systemctl restart logstash >> $LOG
 sudo systemctl enable logstash >> $LOG
 
-#Configuring Kibana Dashboards
-echo "---Configuring Kibana Dashboards---" >> $LOG
-cd ~
-sudo curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip >> $LOG
-sudo unzip beats-dashboards-*.zip >> $LOG
-cd beats-dashboards-* >> $LOG
-./load.sh >> $LOG
-
 sudo apt-get update
 sudo apt-get install firewalld -y
 sudo firewall-cmd --zone=public --add-port=443/tcp --permanent
