@@ -52,3 +52,9 @@ variable "InstanceOSVersion" {
 variable "ssh_public_key" {
   default = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAnHCRoCxwg5G3D3S8ZITGcG1t1KNcMWektPN/orKdjGxYYWGLY6Z1XM6h89t/qVuoMIJWhhpSXOZ8EE5VauljeCBIUGacSauy72fChGbsHqwHuWpxxA6q2xGrYc0e1xDc9auIKO6F1XXz8U+O/ColBbdjhRmsGI9t5/GGJJhh8zeGzy2QDl0BEeayGCwMjMBM4fzSfpag2e/mgL+o9hst3CoamZCeaGPagOY/4iGZFeIYJ4Fkfmamm57Bw5ACvGKEaPfM1QoEaduox1eYv+rAzf5g+dnZiq/sA1piup+/kg9aiRaBzu5uBpt52X+o1ISzHleMUdyHT5Mx57HMyVSkMQ== rsa-key-20171016"
 }
+variable "BootStrapFile" {
+  default = "./userdata/bootstrap"
+}
+variable "admin_username" {
+    default = "splunk"
+}
