@@ -55,6 +55,7 @@ sudo openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -ne
 
 #Configuring Nginx
 echo "---Configuring Nginx---" >> $LOG
+sudo sudo -v >> $LOG
 echo "admin:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
 cat /dev/null > /etc/nginx/sites-available/default >> $LOG
 wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/default -O /etc/nginx/sites-available/default >> $LOG
