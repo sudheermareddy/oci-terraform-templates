@@ -1,4 +1,5 @@
 #!/bin/sh
+echo -e "ubuntu ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
 
 username = "ubuntu"
 password = "elastic@1234"
