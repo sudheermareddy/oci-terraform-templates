@@ -23,11 +23,24 @@ variable "InstanceOSVersion" {
   default = "16.04"
 }
 variable "InstanceShape" {
-    default = "VM.Standard1.8"
+    default = "VM.Standard1.2"
 }
 variable "nicName" {
     default = "chefNIC"
 }
-variable "sshKey"{
-default="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAxo2e9w3zPlXp7UwDDEWMmnqKnIQfErxfry88QSnFGZ3gkMxpi/gWrLVBh5U1Wo+9JsvpkUF9hZtGSgAa8ArGWzTUITqhE+ZwVkIFkBfR+5kSGWFsFm/dvth8AhDElfMJA082ZcuhaeffdVMrN6hm4EkFIntVBeRWt49DwMY/ohliJIAcUAtLy/0Vb9Ok3H6ceCH8IK5vFA2iKJzfWa2m1w9KDmTNRjsqsqMCvGtwGw/qn/EAN6iyexLXQp7ONh9I9rsATgOb5RI4Nid0URCVSneVKnmzOSWQYvydG+JWRqumBUzy0CfG8MFSVJyyEg6E/78Ac8gG1YhvOLwe23VWfw== rsa-key-20171009"
+variable "wInstanceOS" {
+  default = "Windows"
 }
+variable "wInstanceOSVersion" {
+  default = "Server 2012 R2 Standard"
+}
+variable "sshKey" {
+default = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAm2G0ViZ6wlreVdfTkepqxnr0VIwon8WNIjhAiSnO3aMlU6WnozOGAF1qVzk5I4ugGpcXMmGvIbY5TOB4jH4dDF3AZljELsku6mOc7HtEL5wxM1ARq8PwrBuW6RfdzwRVgEYGqp25gwoY+nrPPwmceNF7mH3EBzqxFbtMOKsMfXeOzbUvH+fEYvZLUhsx7OJzd5HNWgnng9YvLOv54dopPJXhoiWd5ato4gppRgBC05bmTAdPOewx3WrrJxm0jl08gOAlhOQjv0EOJwaUMEFrMd8iW2LHSv2g97pQ69nu6j/XksB6YIUvUS22qUFP/oD47EUm2U2oA/5cFz+XwRqjzw== rsa-key-20171016"
+}
+variable "BootStrapFile" {
+    default = "./scripts/chef_server.tf"
+}
+
+
+
+
