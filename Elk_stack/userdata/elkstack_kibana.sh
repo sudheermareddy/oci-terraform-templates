@@ -1,10 +1,11 @@
 #!/bin/bash
-#Date - 13102017
+#Date - 16102017
 #Developer - Sysgain
 
 DATE=`date +%Y%m%d%T`
 LOG=/tmp/elkstack_deploy.log.$DATE
 HOSTIP=`hostname -i`
+storageAccount=$1
 
 
 # Configure Repos for Java, Elasticsearch, Kibana Packages
@@ -33,7 +34,7 @@ sudo apt-get -y install oracle-java8-installer elasticsearch kibana nginx logsta
 
 #Configuring Elasticsearch
 echo "---Configuring Elasticsearch---" >> $LOG
-sudo sed -i 's/# network.host: 192.168.0.1/ network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
+sudo sed -i 's/#network.host: 192.168.0.1/network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
 sudo systemctl restart elasticsearch >> $LOG
 sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable elasticsearch >> $LOG 
@@ -45,33 +46,41 @@ sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable kibana >> $LOG
 sudo systemctl start kibana >> $LOG
 
-#Generate SSL Certificates
-echo "---Generate SSL Certificates---" >> $LOG
-sudo mkdir -p /etc/pki/tls/certs >> $LOG
-sudo mkdir /etc/pki/tls/private >> $LOG
-sudo sed -i "/\[ v3_ca \]/a subjectAltName = IP: $HOSTIP" /etc/ssl/openssl.cnf >> $LOG
-cd /etc/pki/tls >> $LOG
-sudo openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt >> $LOG
-
 #Configuring Nginx
 echo "---Configuring Nginx---" >> $LOG
 sudo sudo -v >> $LOG
-echo "admin:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
+echo "admin:`openssl passwd -apr1 'Password4321'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
 cat /dev/null > /etc/nginx/sites-available/default >> $LOG
-wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/default -O /etc/nginx/sites-available/default >> $LOG
+wget https://raw.githubusercontent.com/sysgain/MSOSS/master/scripts/default -O /etc/nginx/sites-available/default >> $LOG
 sudo nginx -t >> $LOG
 sudo systemctl restart nginx >> $LOG
 sudo ufw allow 'Nginx Full' >> $LOG
 
+#Generate SSL Certificates
+echo "---Generate SSL Certificates---" >> $LOG
+sudo mkdir -p /etc/pki/tls/certs >> $LOG
+sudo mkdir /etc/pki/tls/private >> $LOG
+sed -i "/\[ v3_ca \]/a subjectAltName = IP: $HOSTIP" /etc/ssl/openssl.cnf >> $LOG
+cd /etc/pki/tls >> $LOG
+sudo openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt >> $LOG
+
 #Configuring Logstash
 echo "---Configuring Logstash---" >> $LOG
-sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/02-beats-input.conf -O /etc/logstash/conf.d/02-beats-input.conf >> $LOG
+sudo wget https://raw.githubusercontent.com/sysgain/MSOSS/master/scripts/02-beats-input.conf -O /etc/logstash/conf.d/02-beats-input.conf >> $LOG
 sudo ufw allow 5044 >> $LOG
-sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/10-syslog-filter.conf -O /etc/logstash/conf.d/10-syslog-filter.conf >> $LOG
-sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/30-elasticsearch-output.conf -O /etc/logstash/conf.d/30-elasticsearch-output.conf >> $LOG
+sudo wget https://raw.githubusercontent.com/sysgain/MSOSS/master/scripts/10-syslog-filter.conf -O /etc/logstash/conf.d/10-syslog-filter.conf >> $LOG
+sudo wget https://raw.githubusercontent.com/sysgain/MSOSS/master/scripts/30-elasticsearch-output.conf -O /etc/logstash/conf.d/30-elasticsearch-output.conf >> $LOG
 sudo /opt/logstash/bin/logstash --configtest -f /etc/logstash/conf.d/ >> $LOG
 sudo systemctl restart logstash >> $LOG
 sudo systemctl enable logstash >> $LOG
+
+#Configuring Kibana Dashboards
+echo "---Configuring Kibana Dashboards---" >> $LOG
+cd ~
+sudo curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip >> $LOG
+sudo unzip beats-dashboards-*.zip >> $LOG
+cd beats-dashboards-* >> $LOG
+./load.sh >> $LOG
 
 sudo apt-get update
 sudo apt-get install firewalld -y
