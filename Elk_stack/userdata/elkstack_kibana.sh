@@ -49,7 +49,7 @@ sudo systemctl start kibana >> $LOG
 #Configuring Nginx
 echo "---Configuring Nginx---" >> $LOG
 sudo sudo -v >> $LOG
-echo "admin:`openssl passwd -apr1 'Password4321'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
+echo "adminuser:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
 sudo curl https://raw.githubusercontent.com/sysgain/MSOSS/master/scripts/default > /etc/nginx/sites-available/default >> $LOG
 sudo nginx -t >> $LOG
 sudo systemctl restart nginx >> $LOG
