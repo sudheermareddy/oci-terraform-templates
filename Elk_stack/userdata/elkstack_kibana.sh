@@ -55,10 +55,10 @@ sudo openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -ne
 
 #Configuring Logstash
 echo "---Configuring Logstash---" >> $LOG
-sudo wget https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/02-beats-input.conf -O /etc/logstash/conf.d/02-beats-input.conf >> $LOG
+sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/02-beats-input.conf -O /etc/logstash/conf.d/02-beats-input.conf >> $LOG
 sudo ufw allow 5044 >> $LOG
-sudo wget https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/10-syslog-filter.conf -O /etc/logstash/conf.d/10-syslog-filter.conf >> $LOG
-sudo wget https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/30-elasticsearch-output.conf -O /etc/logstash/conf.d/30-elasticsearch-output.conf >> $LOG
+sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/10-syslog-filter.conf -O /etc/logstash/conf.d/10-syslog-filter.conf >> $LOG
+sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/30-elasticsearch-output.conf -O /etc/logstash/conf.d/30-elasticsearch-output.conf >> $LOG
 sudo /opt/logstash/bin/logstash --configtest -f /etc/logstash/conf.d/ >> $LOG
 sudo systemctl restart logstash >> $LOG
 sudo systemctl enable logstash >> $LOG
@@ -66,16 +66,9 @@ sudo systemctl enable logstash >> $LOG
 #Configuring Kibana Dashboards
 echo "---Configuring Kibana Dashboards---" >> $LOG
 cd ~
-curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip >> $LOG
-unzip beats-dashboards-*.zip >> $LOG
+sudo curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip >> $LOG
+sudo unzip beats-dashboards-*.zip >> $LOG
 cd beats-dashboards-* >> $LOG
 ./load.sh >> $LOG
 
-#Configuring Nginx
-echo "---Configuring Nginx---" >> $LOG
-echo "adminuser:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
-cat /dev/null > /etc/nginx/sites-available/default >> $LOG
-wget https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/default -O /etc/nginx/sites-available/default >> $LOG
-sudo nginx -t >> $LOG
-sudo systemctl restart nginx >> $LOG
-sudo ufw allow 'Nginx Full' >> $LOG
+
