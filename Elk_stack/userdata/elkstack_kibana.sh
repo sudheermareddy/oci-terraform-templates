@@ -33,7 +33,7 @@ sudo apt-get -y install oracle-java8-installer elasticsearch kibana nginx logsta
 
 #Configuring Elasticsearch
 echo "---Configuring Elasticsearch---" >> $LOG
-sudo sed -i 's/#network.host: 192.168.0.1/ network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
+sudo sed -i 's/# network.host: 192.168.0.1/ network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
 sudo systemctl restart elasticsearch >> $LOG
 sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable elasticsearch >> $LOG 
@@ -62,6 +62,14 @@ sudo wget https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/30-ela
 sudo /opt/logstash/bin/logstash --configtest -f /etc/logstash/conf.d/ >> $LOG
 sudo systemctl restart logstash >> $LOG
 sudo systemctl enable logstash >> $LOG
+
+#Configuring Kibana Dashboards
+echo "---Configuring Kibana Dashboards---" >> $LOG
+cd ~
+curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip >> $LOG
+unzip beats-dashboards-*.zip >> $LOG
+cd beats-dashboards-* >> $LOG
+./load.sh >> $LOG
 
 #Configuring Nginx
 echo "---Configuring Nginx---" >> $LOG
