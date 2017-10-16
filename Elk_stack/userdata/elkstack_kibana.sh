@@ -70,5 +70,3 @@ sudo curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.
 sudo unzip beats-dashboards-*.zip >> $LOG
 cd beats-dashboards-* >> $LOG
 ./load.sh >> $LOG
-
-
