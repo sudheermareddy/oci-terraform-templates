@@ -33,7 +33,7 @@ sudo apt-get -y install oracle-java8-installer elasticsearch kibana nginx logsta
 
 #Configuring Elasticsearch
 echo "---Configuring Elasticsearch---" >> $LOG
-sudo sed -i 's/#network.host: 192.168.0.1/network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
+sudo sed -i 's/#network.host: 192.168.0.1/ network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
 sudo systemctl restart elasticsearch >> $LOG
 sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable elasticsearch >> $LOG 
@@ -44,16 +44,6 @@ sudo sed -i 's/# server.host: "0.0.0.0"/ server.host: "localhost"/g' /opt/kibana
 sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable kibana >> $LOG
 sudo systemctl start kibana >> $LOG
-
-#Configuring Nginx
-echo "---Configuring Nginx---" >> $LOG
-sudo -v >> $LOG
-echo "adminuser:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
-cat /dev/null > /etc/nginx/sites-available/default >> $LOG
-wget https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/default -O /etc/nginx/sites-available/default >> $LOG
-sudo nginx -t >> $LOG
-sudo systemctl restart nginx >> $LOG
-sudo ufw allow 'Nginx Full' >> $LOG
 
 #Generate SSL Certificates
 echo "---Generate SSL Certificates---" >> $LOG
@@ -73,3 +63,11 @@ sudo /opt/logstash/bin/logstash --configtest -f /etc/logstash/conf.d/ >> $LOG
 sudo systemctl restart logstash >> $LOG
 sudo systemctl enable logstash >> $LOG
 
+#Configuring Nginx
+echo "---Configuring Nginx---" >> $LOG
+echo "adminuser:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
+cat /dev/null > /etc/nginx/sites-available/default >> $LOG
+wget https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/default -O /etc/nginx/sites-available/default >> $LOG
+sudo nginx -t >> $LOG
+sudo systemctl restart nginx >> $LOG
+sudo ufw allow 'Nginx Full' >> $LOG
