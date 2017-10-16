@@ -50,8 +50,8 @@ sudo systemctl start kibana >> $LOG
 echo "---Configuring Nginx---" >> $LOG
 sudo sudo -v >> $LOG
 echo "adminuser:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
-sudo -i >> $LOG
-sudo curl https://raw.githubusercontent.com/sysgain/MSOSS/master/scripts/default > /etc/nginx/sites-available/default >> $LOG
+sudo -i 
+curl https://raw.githubusercontent.com/sysgain/MSOSS/master/scripts/default > /etc/nginx/sites-available/default >> $LOG
 sudo nginx -t >> $LOG
 sudo systemctl restart nginx >> $LOG
 sudo ufw allow 'Nginx Full' >> $LOG
