@@ -34,4 +34,13 @@ resource "oci_core_security_list" "chefsecurity" {
             "max" =8989
         }
     }
+    ingress_security_rules {
+        protocol = "6"
+        source = "0.0.0.0/0"
+        stateful = true
 
+        tcp_options {
+            "min" =3389
+            "max" =3389
+        }
+    }
