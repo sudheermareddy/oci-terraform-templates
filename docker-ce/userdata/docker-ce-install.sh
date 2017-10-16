@@ -16,6 +16,18 @@ sudo firewall-cmd --add-port=443/tcp --permanent --zone=public
 sudo firewall-cmd --add-port=4789/tcp --permanent --zone=public
 sudo firewall-cmd --add-port=7946/tcp --permanent --zone=public
 sudo firewall-cmd --add-port=2377/tcp --permanent --zone=public
+sudo firewall-cmd --reload
+sudo apt-get -y update
+sudo apt-get -y install dnsmasq
+
+echo "server=8.8.8.8" | sudo tee -a /etc/dnsmasq.conf
+echo "server=8.8.4.4" | sudo tee -a /etc/dnsmasq.conf
+
+sudo apt-get -y update
+sudo service dnsmasq restart
+sudo service networking restart
+
+
 
 echo "====================Install Docker CE========================="
 
