@@ -1,13 +1,9 @@
 #!/bin/sh
 
-username= "elastic"
-password= "elastic@1234"
+username = "ubuntu"
+password = "elastic@1234"
 
 echo -e "ubuntu ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
-echo -e "$username ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
-
-sudo usermod -l $username ubuntu
-usermod -d /home/$username -m $username
 
 echo -e "$password\n$password" | sudo passwd $username
 file="/etc/ssh/sshd_config"
