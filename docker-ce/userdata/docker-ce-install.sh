@@ -16,6 +16,9 @@ sudo firewall-cmd --add-port=443/tcp --permanent --zone=public
 sudo firewall-cmd --add-port=4789/tcp --permanent --zone=public
 sudo firewall-cmd --add-port=7946/tcp --permanent --zone=public
 sudo firewall-cmd --add-port=2377/tcp --permanent --zone=public
+sudo firewall-cmd --add-port=5000/tcp --permanent --zone=public
+sudo firewall-cmd --add-port=5001/tcp --permanent --zone=public
+sudo firewall-cmd --add-port=8080/tcp --permanent --zone=public
 sudo firewall-cmd --reload
 sudo apt-get -y update
 sudo apt-get -y install dnsmasq
