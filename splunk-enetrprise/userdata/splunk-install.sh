@@ -5,4 +5,4 @@ tar xvzf splunk-7.0.0-c8a78efdd40f-Linux-x86_64.tgz
 mv splunk /opt/
 rm splunk-7.0.0-c8a78efdd40f-Linux-x86_64.tgz
 /opt/splunk/bin/splunk start --accept-license
-/opt/splunk/bin/splunk enable boot-star
+/opt/splunk/bin/splunk enable boot-start
