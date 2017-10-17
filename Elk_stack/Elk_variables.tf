@@ -31,7 +31,7 @@ variable "InstanceShape" {
     default = "VM.Standard1.8"
 }
 variable "BootStrapFile" {
-   default = "./userdata/vm-prep.sh"
+   default = "./userdata/enablepassword.sh"
 }
 variable "ssh_private_key" {
     default = "./userdata/elkprivatekey.pem"
