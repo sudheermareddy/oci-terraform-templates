@@ -7,12 +7,7 @@ resource "oci_core_instance" "Elkvm" {
     subnet_id = "${oci_core_subnet.Elksubnet1.id}"
   metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
-        user_data = "${base64encode(format("%s\n%s %s %s\n",
-           file(var.BootStrapFileDir),
-           "./enable-password-auth.sh",
-           "${var.admin_username}",
-           "${var.admin_password}"
-        ))}"
+        user_data = "${base64encode(file(var.BootStrapFile))}"
   }
   create_vnic_details {
     subnet_id = "${oci_core_subnet.Elksubnet1.id}"
@@ -28,11 +23,11 @@ resource "null_resource" "remote-exec" {
         agent = false
         timeout = "15m"
         host = "${data.oci_core_vnic.elk-nic.public_ip_address}"
-        user = "ubuntu"
+        user = "elastic"
         private_key = "${(file(var.ssh_private_key))}"
       }
       inline = [
-        "cd ~ubuntu",
+        "cd ~elastic",
         "curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/userdata/elkstack_kibana.sh > elkstack_kibana.sh ",
         "chmod +x elkstack_kibana.sh",
         "./elkstack_kibana.sh"

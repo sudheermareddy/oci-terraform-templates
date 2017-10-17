@@ -31,14 +31,8 @@ variable "InstanceShape" {
     default = "VM.Standard1.8"
 }
 variable "BootStrapFile" {
-   default = "./userdata/enablepassword.sh"
+   default = "./userdata/enablepasswordelkvm.sh"
 }
 variable "ssh_private_key" {
     default = "./userdata/elkprivatekey.pem"
-}
-variable "admin_username" {
-    default = "elastic"
-}
-variable "admin_password" {
-    default = "elastic123"
 }
