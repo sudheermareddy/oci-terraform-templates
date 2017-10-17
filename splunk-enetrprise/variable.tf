@@ -59,5 +59,5 @@ variable "admin_username" {
     default = "splunk"
 }
 variable "ssh_private_key" {
-    default = "./userdata/splunk17.pem"
+    default = "./userdata/splunkprivatekey.pem"
 }
