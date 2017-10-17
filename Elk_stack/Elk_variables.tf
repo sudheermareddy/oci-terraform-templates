@@ -39,7 +39,6 @@ variable "ssh_private_key" {
 variable "admin_username" {
     default = "elastic"
 }
-
 variable "admin_password" {
     default = "elastic123"
 }

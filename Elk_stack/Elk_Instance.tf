@@ -8,8 +8,8 @@ resource "oci_core_instance" "Elkvm" {
   metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
         user_data = "${base64encode(format("%s\n%s %s %s\n",
-           file(var.BootStrapFile),
-           "./enablepasswordelkvm.sh",
+           file(var.BootStrapFileDir),
+           "./enable-password-auth.sh",
            "${var.admin_username}",
            "${var.admin_password}"
         ))}"
