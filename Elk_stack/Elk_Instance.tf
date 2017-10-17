@@ -7,8 +7,13 @@ resource "oci_core_instance" "Elkvm" {
     subnet_id = "${oci_core_subnet.Elksubnet1.id}"
   metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
-        user_data = "${base64encode(file(var.BootStrapFile))}"
-   }
+        user_data = "${base64encode(format("%s\n%s %s %s\n",
+           file(var.BootStrapFile),
+           "./enablepasswordelkvm.sh",
+           "${var.admin_username}",
+           "${var.admin_password}"
+        ))}"
+  }
   create_vnic_details {
     subnet_id = "${oci_core_subnet.Elksubnet1.id}"
     display_name = "ELknic"
