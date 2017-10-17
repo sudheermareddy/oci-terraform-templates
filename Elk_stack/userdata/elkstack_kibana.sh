@@ -48,7 +48,9 @@ sudo systemctl start kibana >> $LOG
 echo "---Configuring Nginx---" >> $LOG
 sudo sudo -v >> $LOG
 echo "adminuser:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
-sudo curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/default > /etc/nginx/sites-available/default >> $LOG
+sudo rm /etc/nginx/sites-available/default
+sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/default -O /etc/nginx/sites-available/default
+sudo sed -i 's/example.com/localhost:5601/g' /etc/nginx/sites-available/default
 sudo nginx -t >> $LOG
 sudo systemctl restart nginx >> $LOG
 sudo ufw allow 'Nginx Full' >> $LOG
