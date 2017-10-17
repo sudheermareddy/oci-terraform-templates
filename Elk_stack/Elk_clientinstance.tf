@@ -8,7 +8,7 @@ resource "oci_core_instance" "Clientvm" {
     subnet_id = "${oci_core_subnet.Elksubnet1.id}"
   metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
-        
+        user_data = "${base64encode(file(var.BootStrapFile1))}"
    }
  create_vnic_details {
     subnet_id = "${oci_core_subnet.Elksubnet1.id}"

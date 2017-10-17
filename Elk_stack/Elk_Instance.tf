@@ -23,11 +23,11 @@ resource "null_resource" "remote-exec" {
         agent = false
         timeout = "15m"
         host = "${data.oci_core_vnic.elk-nic.public_ip_address}"
-        user = "elastic"
+        user = "ubuntu"
         private_key = "${(file(var.ssh_private_key))}"
       }
       inline = [
-        "cd ~elastic",
+        "cd ~ubuntu",
         "curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/userdata/elkstack_kibana.sh > elkstack_kibana.sh ",
         "chmod +x elkstack_kibana.sh",
         "./elkstack_kibana.sh"
