@@ -17,22 +17,22 @@ resource "oci_core_instance" "splunkvm" {
     hostname_label = "instance"
   }
     }
-
-resource "null_resource" "remote-exec" {
+resource "null_resource" "remote-exec0" {
     depends_on = ["oci_core_instance.splunkvm"]
     provisioner "remote-exec" {
       connection {
         agent = false
-        timeout = "15m"
-        host = "${data.oci_core_vnic.splunknic.public_ip_address}"
+        timeout = "5m"
+        host = "${data.oci_core_vnic.splunk-nic.public_ip_address}"
         user = "${var.admin_username}"
         private_key = "${(file(var.ssh_private_key))}"
       }
       inline = [
-        "cd ~${var.admin_username}",
-        "curl https://github.com/sysgain/oci-terraform-templates/blob/oci-splunk-enterprise/splunk-enetrprise/userdata/splunk-install.sh > splunk-install.sh",
-        "chmod +x splunk-install.sh",
+        "wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-splunk-enterprise/splunk-enetrprise/userdata/splunk-install.sh ",
+        "chmod 777 splunk-install.sh",
         "./splunk-install.sh ${var.admin_username} >> remote-exec.log 2>&1"
+
+
       ]
     }
 }
