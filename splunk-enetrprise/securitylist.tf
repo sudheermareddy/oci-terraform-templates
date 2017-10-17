@@ -58,7 +58,7 @@ resource "oci_core_security_list" "securitylist" {
                 }
          // allow inbound https traffic
         ingress_security_rules {
-        protocol = "7" // tcp
+        protocol = "6" // tcp
         source = "0.0.0.0/0"
         stateless = false
 
@@ -70,7 +70,7 @@ resource "oci_core_security_list" "securitylist" {
                 }
         // allow inbound Allow-Receiver-TCP traffic
         ingress_security_rules {
-        protocol = "8" // tcp
+        protocol = "6" // tcp
         source = "0.0.0.0/0"
         stateless = false
 
@@ -82,7 +82,7 @@ resource "oci_core_security_list" "securitylist" {
                 }
         // allow inbound Allow-HTTP-Event-Collector traffic
         ingress_security_rules {
-        protocol = "9" // tcp
+        protocol = "6" // tcp
         source = "0.0.0.0/0"
         stateless = false
 
