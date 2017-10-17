@@ -56,7 +56,7 @@ variable "BootStrapFile" {
   default = "./userdata/splunk-install.sh"
 }
 variable "admin_username" {
-    default = "splunk"
+    default = "ubuntu"
 }
 variable "ssh_private_key" {
     default = "./userdata/splunkprivatekey.pem"
