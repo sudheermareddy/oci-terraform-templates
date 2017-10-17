@@ -50,7 +50,7 @@ variable "InstanceOSVersion" {
     default = "16.04"
 }
 variable "ssh_public_key" {
-  default = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAnHCRoCxwg5G3D3S8ZITGcG1t1KNcMWektPN/orKdjGxYYWGLY6Z1XM6h89t/qVuoMIJWhhpSXOZ8EE5VauljeCBIUGacSauy72fChGbsHqwHuWpxxA6q2xGrYc0e1xDc9auIKO6F1XXz8U+O/ColBbdjhRmsGI9t5/GGJJhh8zeGzy2QDl0BEeayGCwMjMBM4fzSfpag2e/mgL+o9hst3CoamZCeaGPagOY/4iGZFeIYJ4Fkfmamm57Bw5ACvGKEaPfM1QoEaduox1eYv+rAzf5g+dnZiq/sA1piup+/kg9aiRaBzu5uBpt52X+o1ISzHleMUdyHT5Mx57HMyVSkMQ== rsa-key-20171016"
+  default = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAh84EmxAetImBHeYSVRYPQTx10vP1bQCtL3Na5Gs9RWvr5jrPjZIIYSG2io91BEpXUal4N8fZIpvVPvosHdVReox6BKTaNMUuMVsPLR3iBxypMNt+auSM/VxzVtlkYNz16ELhi+FWpFWBXrt+7f5HRrCcC180IUDykIkuOzXvljAhkgp25GyX09diNVzjl1er6CO2bj9RG/bUqFHlAuyK1OU6n/Oti+veflyFu3vra4wqfN7heWoD850ND1ychHfMwpxLfWiXTenqugyRMmZKAMnvhPqEC5eVKVr4Lqg0PbfSekm2z4LbVCZwUeSH3fON59HhwGirdHzgUcWf0QU2NQ== rsa-key-20171017"
 }
 variable "BootStrapFile" {
   default = "./userdata/splunk-install.sh"
