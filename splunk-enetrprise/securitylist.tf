@@ -56,5 +56,55 @@ resource "oci_core_security_list" "securitylist" {
                 "max" = 8000
                 }
                 }
+         // allow inbound https traffic
+        ingress_security_rules {
+        protocol = "7" // tcp
+        source = "0.0.0.0/0"
+        stateless = false
+
+      
+    tcp_options {
+                "min" = 443     
+                "max" = 443
+                }
+                }
+        // allow inbound Allow-Receiver-TCP traffic
+        ingress_security_rules {
+        protocol = "8" // tcp
+        source = "0.0.0.0/0"
+        stateless = false
+
+      
+    tcp_options {
+                "min" = 9997
+                "max" = 9997
+                }
+                }
+        // allow inbound Allow-HTTP-Event-Collector traffic
+        ingress_security_rules {
+        protocol = "9" // tcp
+        source = "0.0.0.0/0"
+        stateless = false
+
+      
+    tcp_options {
+                "min" = 8088
+                "max" = 8088
+                }
+                }
+        // allow inbound Allow-Mgmt-From-VNC traffic
+        ingress_security_rules {
+        protocol = "6" // tcp
+        source = "0.0.0.0/0"
+        stateless = false
+
+      
+    tcp_options {
+                "min" = 8089
+                "max" = 8089
+                }
+                }
+
+        }
 
         }
