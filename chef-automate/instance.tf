@@ -1,35 +1,79 @@
-resource "oci_core_instance" "chefVM-server" {
-    availability_domain = "${lookup(data.oci_identity_availability_domains.chefAD.availability_domains[1],"name")}"
-    compartment_id = "${var.compId}"
-    display_name = "${var.vcnDisplayName}-VM-server${random_id.unq.hex}"
-    image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
-    shape = "${var.InstanceShape}"
-    subnet_id = "${oci_core_subnet.chefsubnet1.id}"
+{
+  "variables": {
+    "client_id": "",
+    "client_secret": "",
+    "resource_group": "",
+    "storage_account": "",
+    "subscription_id": "",
+    "tenant_id": "",
+    "Hartfile" : ""
+  },
+  "builders": [{
+    "type": "azure-arm",
 
-create_vnic_details {
-    subnet_id = "${oci_core_subnet.chefsubnet1.id}"
-    display_name = "${var.nicName}"
-    assign_public_ip = true
-    hostname_label = "chef${random_id.unq.hex}"
-}
-metadata {
-   ssh_authorized_keys = "${var.sshKey}"
-   }
-}
-resource "null_resource" "remote-exec" {
-  depends_on = ["oci_core_instance.chefVM-server"]
-    provisioner "remote-exec" {
-     connection {
-        agent = false
-       timeout = "15m"
-       host = "${data.oci_core_vnic.InstanceVnic.public_ip_address}"
-       user = "ubuntu"
-       private_key = "${(file(var.BootStrapFile))}"
-     }
-     inline = [
-       "curl https://raw.githubusercontent.com/sudheermareddy/test/master/chefautomate.sh > chefautomate.sh",
-       "chmod +x chefautomate.sh",
-       "./chefautomate.sh"
-     ]
-   }
+    "client_id": "{{user `client_id`}}",
+    "client_secret": "{{user `client_secret`}}",
+    "resource_group_name": "{{user `resource_group`}}",
+    "storage_account": "{{user `storage_account`}}",
+    "subscription_id": "{{user `subscription_id`}}",
+    "tenant_id": "{{user `tenant_id`}}",
+    
+     
+
+    "capture_container_name": "appimages",
+    "capture_name_prefix": "App",
+
+    "os_type": "Linux",
+    "image_publisher": "Canonical",
+    "image_offer": "UbuntuServer",
+    "image_sku": "16.04-LTS",
+
+    "azure_tags": {
+        "dept": "engineering",
+        "task": "image deployment"
+    },
+
+    "location": "West US",
+    "vm_size": "Standard_D1_v2"
+  }],
+  "provisioners": [{
+    "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+    "inline": [
+      "echo '---Configure Repos for Azure Cli 2.0---'",
+      "echo \"deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main\" | sudo tee /etc/apt/sources.list.d/azure-cli.list",
+      "sudo apt-key adv --keyserver packages.microsoft.com --recv-keys 417A0893",
+      "echo \"deb https://packages.elastic.co/beats/apt stable main\" |  sudo tee -a /etc/apt/sources.list.d/beats.list",
+      "wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -",
+      "apt-get update",
+      "sudo apt-get install openjdk-8-jdk apt-transport-https azure-cli filebeat -y",
+	  "sudo mkdir -p /etc/pki/tls/certs",
+      "addgroup hab",
+      "sudo useradd -g hab hab",
+      "usermod -aG sudo hab",
+      "mkdir /scripts",
+      "curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash",
+      "echo \"#!/bin/sh\" >> /scripts/downloadhart.sh",
+      "echo \"HARTFILE=\"{{user `Hartfile`}}\"\" >> /scripts/downloadhart.sh",
+      "echo \"storageAccount=\"{{user `storage_account`}}\"\" >> /scripts/downloadhart.sh",
+      "echo \"export AZURE_STORAGE_ACCOUNT=\"{{user `storage_account`}}\"\" >> /scripts/downloadhart.sh",
+      "echo \"az login --service-principal -u \"{{user `client_id`}}\" --password \"{{user `client_secret`}}\" --tenant \"{{user `tenant_id`}}\" > /dev/null\" >> /scripts/downloadhart.sh",
+      "echo \"cd /scripts/\" >> /scripts/downloadhart.sh",
+      "echo \"az storage blob download --container-name apphart --name \"{{user `Hartfile`}}\" --file \"{{user `Hartfile`}}\" --output table\" >> /scripts/downloadhart.sh",
+      "echo tar -xvf \"{{user `Hartfile`}}\" >> /scripts/downloadhart.sh",
+      "echo DIR=`echo \"{{user `Hartfile`}}\" | sed 's/.tar.gz//g'` >> /scripts/downloadhart.sh",
+      "echo cp -vrf '$DIR'\/*.pub /hab/cache/keys >> /scripts/downloadhart.sh",
+      "sudo wget -O /scripts/run_national-parks.sh https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/run_national-parks.sh",
+      "chmod +x /scripts/run_national-parks.sh",
+      "chmod +x /scripts/downloadhart.sh",
+      "sed -i -e '12i/scripts/downloadhart.sh\\' /etc/rc.local",
+      "sed -i -e '13i/scripts/run_national-parks.sh\\' /etc/rc.local",
+      "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync",
+	  "sudo wget -O /scripts/run_national-parks.sh https://raw.githubusercontent.com/sysgain/MSOSS/staging/scripts/elk_filebeat.sh",
+	  "chmod "
+	  
+	
+    ],
+    "inline_shebang": "/bin/sh -x",
+    "type": "shell"
+  }]
 }
