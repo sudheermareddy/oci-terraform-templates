@@ -33,6 +33,9 @@ variable "InstanceShape" {
 variable "BootStrapFile" {
    default = "./userdata/enablepasswordelkvm.sh"
 }
+variable "BootStrapFile" {
+   default = "./userdata/enablepasswordelkvm.sh"
+}
 variable "BootStrapFile1" {
    default = "./userdata/filebeatinstall.sh"
 }

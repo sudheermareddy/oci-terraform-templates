@@ -28,7 +28,7 @@ sudo apt-get update
 
 #Installing Packages for ELK Stack
 echo "---Installing Packages for ELK Stack---"  >> $LOG
-sudo apt-get -y install oracle-java8-installer nginx >> $LOG
+sudo apt-get -y install oracle-java8-installer nginx logstash >> $LOG
 
 #Configuring Elasticsearch
 echo "---Configuring Elasticsearch---" >> $LOG
@@ -72,8 +72,6 @@ sudo openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -ne
 
 #Configuring Logstash
 echo "---Configuring Logstash---" >> $LOG
-sudo wget https://artifacts.elastic.co/downloads/logstash/logstash-5.6.2.deb
-sudo dpkg -i logstash-5.6.2.deb
 sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/02-beats-input.conf -O /etc/logstash/conf.d/02-beats-input.conf >> $LOG
 sudo ufw allow 5044 >> $LOG
 sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/10-syslog-filter.conf -O /etc/logstash/conf.d/10-syslog-filter.conf >> $LOG
