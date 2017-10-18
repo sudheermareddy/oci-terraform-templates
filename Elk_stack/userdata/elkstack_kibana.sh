@@ -34,7 +34,7 @@ sudo apt-get -y install oracle-java8-installer elasticsearch kibana nginx logsta
 
 #Configuring Elasticsearch
 echo "---Configuring Elasticsearch---" >> $LOG
-sudo sed -i 's/#network.host: 192.168.0.1/network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
+sudo sed -i 's/# network.host: 192.168.0.1/ network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
 sudo systemctl restart elasticsearch >> $LOG
 sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable elasticsearch >> $LOG 
@@ -48,11 +48,11 @@ sudo systemctl start kibana >> $LOG
 
 #Configuring Nginx
 echo "---Configuring Nginx---" >> $LOG
-sudo -v >> $LOG
+sudo sudo -v >> $LOG
 echo "adminuser:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx/htpasswd.users >> $LOG
 sudo rm /etc/nginx/sites-available/default
 sudo wget https://raw.githubusercontent.com/sudheermareddy/test/master/default -O /etc/nginx/sites-available/default
-sed -i 's/example.com/localhost:5601/g' /etc/nginx/sites-available/default
+sudo sed -i 's/example.com/localhost:5601/g' /etc/nginx/sites-available/default
 sudo nginx -t >> $LOG
 sudo systemctl restart nginx >> $LOG
 sudo ufw allow 'Nginx Full' >> $LOG
