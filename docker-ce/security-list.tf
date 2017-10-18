@@ -57,6 +57,30 @@ resource "oci_core_security_list" "nsl1" {
         "min" = 4789
         "max" = 4789
       }
+    },
+    {
+      protocol = "6"
+      source   = "0.0.0.0/0"
+      tcp_options {
+        "min" = 5000
+        "max" = 5000
+      }
+    },
+    {
+      protocol = "6"
+      source   = "0.0.0.0/0"
+      tcp_options {
+        "min" = 5001
+        "max" = 5001
+      }
+    },
+    {
+      protocol = "6"
+      source   = "0.0.0.0/0"
+      tcp_options {
+        "min" = 8080
+        "max" = 8080
+      }
     }
 
   ]
