@@ -9,6 +9,7 @@ HOSTIP=`hostname -i`
 # Configure Repos for Java, Elasticsearch, Kibana Packages
 echo "---Configure Repos for Java, Elasticsearch, Kibana Packages---"   >> $LOG
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - >> $LOG
+echo "deb http://packages.elastic.co/logstash/2.3/debian stable main" | sudo tee -a /etc/apt/sources.list >> $LOG
 
 # Enable silent installation
 echo "---Enable silent installation---" >> $LOG
@@ -23,7 +24,7 @@ sudo apt install -y openjdk-8-jre-headless
 
 #Installing Packages for ELK Stack
 echo "---Installing Packages for ELK Stack---"  >> $LOG
-sudo apt-get -y install nginx  >> $LOG
+sudo apt-get -y install nginx logstash >> $LOG
 
 #Configuring Elasticsearch
 echo "---Configuring Elasticsearch---" >> $LOG
@@ -62,6 +63,16 @@ sudo sed -i "/\[ v3_ca \]/a subjectAltName = IP: $HOSTIP" /etc/ssl/openssl.cnf >
 cd /etc/pki/tls >> $LOG
 sudo openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt >> $LOG
 
+#Configuring Logstash
+echo "---Configuring Logstash---" >> $LOG
+sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/02-beats-input.conf -O /etc/logstash/conf.d/02-beats-input.conf >> $LOG
+sudo ufw allow 5044 >> $LOG
+sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/10-syslog-filter.conf -O /etc/logstash/conf.d/10-syslog-filter.conf >> $LOG
+sudo wget https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/30-elasticsearch-output.conf -O /etc/logstash/conf.d/30-elasticsearch-output.conf >> $LOG
+sudo /opt/logstash/bin/logstash --configtest -f /etc/logstash/conf.d/ >> $LOG
+sudo systemctl restart logstash >> $LOG
+sudo systemctl enable logstash >> $LOG
+
 #Configuring Kibana Dashboards
 echo "---Configuring Kibana Dashboards---" >> $LOG
 cd ~
@@ -70,6 +81,12 @@ sudo apt-get install unzip >> $LOG
 sudo unzip beats-dashboards-*.zip >> $LOG
 cd beats-dashboards-* >> $LOG
 ./load.sh >> $LOG
+
+#Load Filebeat Index Template in Elasticsearch
+echo "---Load Filebeat Index Template in Elasticsearch---" >> $LOG
+curl -O https://gist.githubusercontent.com/thisismitch/3429023e8438cc25b86c/raw/d8c479e2a1adcea8b1fe86570e42abab0f10f364/filebeat-index-template.json >> $LOG
+curl -XPUT 'http://localhost:9200/_template/filebeat?pretty' -d@filebeat-index-template.json >> $LOG
+cd /etc/pki/tls/certs/
 
 sudo apt-get update
 sudo apt-get install firewalld -y
