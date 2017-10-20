@@ -27,7 +27,7 @@ resource "null_resource" "remote-exec2" {
        private_key = "${(file(var.BootStrapFile))}"
      }
      inline = [
-       "curl https://raw.githubusercontent.com/sudheermareddy/test/master/chefautomate.sh > chefautomate.sh",
+       "curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-chef-automate/chef-automate/scripts/chef-automate.sh > chefautomate.sh",
        "chmod +x chefautomate.sh",
        "./chefautomate.sh"
      ]
