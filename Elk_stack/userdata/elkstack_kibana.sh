@@ -8,14 +8,7 @@ HOSTIP=`hostname -i`
 
 # Configure Repos for Java, Elasticsearch, Kibana Packages
 echo "---Configure Repos for Java, Elasticsearch, Kibana Packages---"   >> $LOG
-#sudo add-apt-repository -y ppa:webupd8team/java >> $LOG
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - >> $LOG
-#echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list >> $LOG
-#echo "deb http://packages.elastic.co/kibana/4.5/debian stable main" | sudo tee -a /etc/apt/sources.list >> $LOG
-#echo "deb http://packages.elastic.co/logstash/2.3/debian stable main" | sudo tee -a /etc/apt/sources.list >> $LOG
-#echo "---Configure Repos for Azure Cli 2.0---" >> $LOG
-#echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main" | sudo tee /etc/apt/sources.list.d/azure-cli.list >> $LOG
-#sudo apt-key adv --keyserver packages.microsoft.com --recv-keys 417A0893 >> $LOG
 
 # Enable silent installation
 echo "---Enable silent installation---" >> $LOG
@@ -46,7 +39,6 @@ echo "---Configuring Kibana---" >> $LOG
 sudo wget https://artifacts.elastic.co/downloads/kibana/kibana-5.6.2-amd64.deb
 sudo dpkg -i kibana-5.6.2-amd64.deb
 sudo sed -i 's/#server.host: "localhost"/ server.host: "localhost"/g' /etc/kibana/kibana.yml
-#sudo sed -i 's/# server.host: "0.0.0.0"/ server.host: "localhost"/g' /opt/kibana/config/kibana.yml >> $LOG
 sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable kibana >> $LOG
 sudo systemctl start kibana >> $LOG
@@ -58,7 +50,6 @@ echo "adminuser:`openssl passwd -apr1 'Password@1234'`" | sudo tee -a /etc/nginx
 sudo rm /etc/nginx/sites-available/default
 sudo wget https://raw.githubusercontent.com/sudheermareddy/test/master/default -O /etc/nginx/sites-available/default
 sudo sed -i 's/example.com/localhost:5601/g' /etc/nginx/sites-available/default
-#sudo curl https://raw.githubusercontent.com/sysgain/oci-terraform-templates/oci-elk-stack/Elk_stack/scripts/default > /etc/nginx/sites-available/default >> $LOG
 sudo nginx -t >> $LOG
 sudo systemctl restart nginx >> $LOG
 sudo ufw allow 'Nginx Full' >> $LOG
