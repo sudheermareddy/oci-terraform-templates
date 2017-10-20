@@ -40,6 +40,9 @@ default = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAm2G0ViZ6wlreVdfTkepqxnr0VIwon8WNI
 variable "BootStrapFile" {
     default = "./scripts/ssh_private_key.pem"
 }
+variable "BootStrapFile1" {
+    default = "./scripts/google.tf"
+}
 
 
 
