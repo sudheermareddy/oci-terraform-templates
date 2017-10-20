@@ -91,5 +91,4 @@ sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
 sudo firewall-cmd --reload
 sudo service elasticsearch start
 sudo service kibana start
-sudo service logstash start
 sudo service nginx start
