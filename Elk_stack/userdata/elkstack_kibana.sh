@@ -30,7 +30,7 @@ sudo apt-get -y install nginx logstash >> $LOG
 echo "---Configuring Elasticsearch---" >> $LOG
 sudo wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.2.deb
 sudo dpkg -i elasticsearch-5.6.2.deb
-sudo sed -i 's/#network.host: 192.168.0.1/ network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
+sudo sed -i 's/#network.host: 192.168.0.1/ network.host: 0.0.0.0/g' /etc/elasticsearch/elasticsearch.yml >> $LOG
 sudo systemctl restart elasticsearch >> $LOG
 sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable elasticsearch >> $LOG
@@ -39,7 +39,7 @@ sudo systemctl enable elasticsearch >> $LOG
 echo "---Configuring Kibana---" >> $LOG
 sudo wget https://artifacts.elastic.co/downloads/kibana/kibana-5.6.2-amd64.deb
 sudo dpkg -i kibana-5.6.2-amd64.deb
-sudo sed -i 's/#server.host: "localhost"/ server.host: "0.0.0.0"/g' /etc/kibana/kibana.yml
+sudo sed -i 's/#server.host: "localhost"/ server.host: "localhost"/g' /etc/kibana/kibana.yml
 sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable kibana >> $LOG
 sudo systemctl start kibana >> $LOG
