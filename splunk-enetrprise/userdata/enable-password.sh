@@ -1,7 +1,7 @@
 #!/bin/sh
 
-username=$1
-password=$2
+username=ubuntu
+password=Password@1234
 
 sudo usermod -l $username ubuntu
 usermod -d /home/$username -m $username
