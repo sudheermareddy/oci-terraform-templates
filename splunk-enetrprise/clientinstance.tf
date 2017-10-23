@@ -1,4 +1,3 @@
-
 resource "oci_core_instance" "clientinstance" {
     availability_domain = "${lookup(data.oci_identity_availability_domains.availdomain.availability_domains[0],"name")}"
     compartment_id = "${var.COMP-ID}"
