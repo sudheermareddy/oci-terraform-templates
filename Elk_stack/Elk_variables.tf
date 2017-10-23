@@ -36,9 +36,6 @@ variable "BootStrapFile" {
 variable "BootStrapFile" {
    default = "./userdata/enablepasswordelkvm.sh"
 }
-variable "BootStrapFile1" {
-   default = "./userdata/filebeatinstall.sh"
-}
 variable "ssh_private_key" {
     default = "./userdata/elkprivatekey.pem"
 }
