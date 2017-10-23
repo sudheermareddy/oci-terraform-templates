@@ -39,7 +39,7 @@ sudo systemctl enable elasticsearch >> $LOG
 echo "---Configuring Kibana---" >> $LOG
 sudo wget https://artifacts.elastic.co/downloads/kibana/kibana-5.6.2-amd64.deb
 sudo dpkg -i kibana-5.6.2-amd64.deb
-sudo sed -i 's/#server.host: "localhost"/ server.host: "localhost"/g' /etc/kibana/kibana.yml
+sudo sed -i 's/#server.host: "localhost"/ server.host: "0.0.0.0"/g' /etc/kibana/kibana.yml
 sudo systemctl daemon-reload >> $LOG
 sudo systemctl enable kibana >> $LOG
 sudo systemctl start kibana >> $LOG
