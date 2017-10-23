@@ -53,7 +53,7 @@ variable "ssh_public_key" {
   default = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAh84EmxAetImBHeYSVRYPQTx10vP1bQCtL3Na5Gs9RWvr5jrPjZIIYSG2io91BEpXUal4N8fZIpvVPvosHdVReox6BKTaNMUuMVsPLR3iBxypMNt+auSM/VxzVtlkYNz16ELhi+FWpFWBXrt+7f5HRrCcC180IUDykIkuOzXvljAhkgp25GyX09diNVzjl1er6CO2bj9RG/bUqFHlAuyK1OU6n/Oti+veflyFu3vra4wqfN7heWoD850ND1ychHfMwpxLfWiXTenqugyRMmZKAMnvhPqEC5eVKVr4Lqg0PbfSekm2z4LbVCZwUeSH3fON59HhwGirdHzgUcWf0QU2NQ== rsa-key-20171017"
 }
 variable "BootStrapFile" {
-  default = "./userdata/enablepassword-user.sh"
+  default = "./userdata/enable-password.sh"
 }
 variable "admin_username" {
     default = "ubuntu"
