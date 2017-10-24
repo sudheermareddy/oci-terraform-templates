@@ -33,6 +33,9 @@ variable "InstanceShape" {
 variable "BootStrapFile" {
    default = "./userdata/enablepassword.sh"
 }
+variable "BootStrapFile1" {
+   default = "./userdata/filebeat_enablepassword.sh"
+    }
 variable "ssh_private_key" {
     default = "./userdata/elkprivatekey.pem"
 }
