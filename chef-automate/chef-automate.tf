@@ -21,7 +21,7 @@ metadata {
 
 
 resource "null_resource" "remote-exec2" {
-  depends_on = ["oci_core_instance.chefVM-2"]
+  depends_on = ["null_resource.remote-exec"]
    provisioner "remote-exec" {
      connection {
         agent = false
