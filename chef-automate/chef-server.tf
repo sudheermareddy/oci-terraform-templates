@@ -1,12 +1,10 @@
 resource "oci_core_instance" "chefVM" {
     availability_domain = "${data.oci_identity_availability_domains.chefAD.availability_domains.0.name}"
     compartment_id = "${var.compId}"
-    display_name="chef-server"
-    //display_name = "${var.vcnDisplayName}-server${random_id.unq.hex}"
+    display_name = "${var.vcnDisplayName}-server${random_id.unq.hex}"
     image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
     shape = "${var.InstanceShape}"
     subnet_id = "${oci_core_subnet.chefsubnet1.id}"
-
 create_vnic_details {
     subnet_id = "${oci_core_subnet.chefsubnet1.id}"
     display_name = "${var.nicName}"
@@ -14,13 +12,11 @@ create_vnic_details {
     private_ip = "10.0.0.3"
     hostname_label = "chef${random_id.unq.hex}"
 }
-
 metadata {
    ssh_authorized_keys = "${var.sshKey}" 
    user_data = "${base64encode(file(var.BootStrapFile1))}"
 }
 }
-
 
 resource "null_resource" "remote-exec" {
   depends_on = ["oci_core_instance.chefVM"]
