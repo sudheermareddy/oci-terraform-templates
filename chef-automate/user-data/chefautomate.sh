@@ -13,7 +13,7 @@ apt-get -y install curl
   echo "Downloading the Chef Automate package..."
  sudo wget -nv -P /root https://packages.chef.io/files/stable/automate/1.6.99/ubuntu/16.04/automate_1.6.99-1_amd64.deb
 #fi
-sudo wget https://github.com/sudheermareddy/test/raw/master/automate.license -O /tmp/automate.license
+sudo https://aztdrepo.blob.core.windows.net/chefautomate-testdrive/automate.license -O /tmp/automate.license
 # install Chef Automate
 if [ ! $(which automate-ctl) ]; then
   echo "Installing Chef Automate..."
