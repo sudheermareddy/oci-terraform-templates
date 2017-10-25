@@ -18,7 +18,6 @@ metadata {
 }
 }
 
-
 resource "null_resource" "remote-exec2" {
   depends_on = ["null_resource.remote-exec"]
    provisioner "remote-exec" {
